@@ -1,0 +1,103 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  MANAGER
+  ADMIN
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum LeaveType {
+  CASUAL
+  SICK
+  EARNED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+enum WorkStatus {
+  IN_PROGRESS
+  COMPLETED
+  PENDING
+}
+
+model Team {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[]
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  password     String
+  profileImage String?
+  role         Role     @default(EMPLOYEE)
+  department   String?
+  leaveBalance Int      @default(20)
+  teamId       Int?
+  team         Team?    @relation(fields: [teamId], references: [id])
+  
+
+  attendance    Attendance[]
+  workLogs      WorkLog[]
+  leaveRequests LeaveRequest[]
+
+  createdAt DateTime @default(now())
+}
+
+model Attendance {
+  id          Int              @id @default(autoincrement())
+  userId      Int
+  user        User             @relation(fields: [userId], references: [id])
+  date        DateTime         @default(now())
+  checkIn     DateTime?
+  checkOut    DateTime?
+  hoursWorked Float?
+  isLate      Boolean          @default(false)
+  status      AttendanceStatus @default(PRESENT)
+  createdAt   DateTime         @default(now())
+}
+
+model WorkLog {
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  title       String
+  description String     @default("")
+  project     String
+  hoursSpent  Float
+  status      WorkStatus @default(IN_PROGRESS)
+  date        DateTime   @default(now())
+  createdAt   DateTime   @default(now())
+}
+
+model LeaveRequest {
+  id        Int         @id @default(autoincrement())
+  userId    Int
+  user      User        @relation(fields: [userId], references: [id])
+  type      LeaveType   @default(CASUAL)
+  startDate DateTime
+  endDate   DateTime
+  reason    String
+  status    LeaveStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+}
