@@ -64,7 +64,7 @@ const uploadPhoto = async (req, res) => {
       return res.status(400).json({ message: "No photo uploaded" });
     }
 
-    const image = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    const image = req.file.path;
 
     const user = await prisma.user.update({
       where: { id: req.user.id },

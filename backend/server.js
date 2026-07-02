@@ -31,7 +31,6 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use("/api/worklog", workLogRoutes);
 app.use("/api/ai", aiRoutes);
-app.use("/uploads", express.static("uploads"));
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
