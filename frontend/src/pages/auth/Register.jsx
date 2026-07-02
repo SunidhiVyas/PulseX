@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
+import API_URL from "../../config/api";
 
 const container = {
   hidden: { opacity: 0 },
@@ -27,7 +28,7 @@ export default function Register() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", {
+      const response = await axios.post(`${API_URL}/auth/register`, {
         name, email, password, role: "EMPLOYEE",
       });
       console.log("REGISTER RESPONSE:", response.data);

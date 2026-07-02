@@ -6,8 +6,9 @@ import Navbar from "../../components/Navbar";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
 import { FiCheckCircle, FiXCircle, FiClock, FiCalendar } from "react-icons/fi";
+import API_URL from "../../config/api";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 const statusColor = (s) =>
   s === "PRESENT" ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/25"
@@ -36,8 +37,8 @@ export default function Attendance() {
   const fetchAll = async () => {
     try {
       const [recRes, statRes] = await Promise.all([
-        axios.get(`${API}/attendance/all`,  { headers }),
-        axios.get(`${API}/attendance/stats`, { headers }),
+        axios.get(`${API_URL}/attendance/all`,  { headers }),
+        axios.get(`${API_URL}/attendance/stats`, { headers }),
       ]);
       setRecords(recRes.data);
       setStats(statRes.data);
@@ -58,7 +59,7 @@ export default function Attendance() {
     setLoading(true);
     setActionMsg("");
     try {
-      await axios.post(`${API}/attendance/checkin`, {}, { headers });
+      await axios.post(`${API_URL}/attendance/checkin`, {}, { headers });
       setActionMsg("✅ Checked in successfully!");
       fetchAll();
     } catch (e) {
@@ -71,7 +72,7 @@ export default function Attendance() {
     setLoading(true);
     setActionMsg("");
     try {
-      await axios.post(`${API}/attendance/checkout`, {}, { headers });
+      await axios.post(`${API_URL}/attendance/checkout`, {}, { headers });
       setActionMsg("✅ Checked out successfully!");
       fetchAll();
     } catch (e) {

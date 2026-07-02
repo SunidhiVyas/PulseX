@@ -6,8 +6,9 @@ import Navbar from "../../components/Navbar";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
 import { FiPlus, FiX, FiEdit3, FiTrash2, FiClock, FiCheck } from "react-icons/fi";
+import API_URL from "../../config/api";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 const statusStyle = (s) =>
   s === "COMPLETED"   ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/25"
@@ -42,8 +43,8 @@ export default function WorkLogs() {
   const fetchAll = async () => {
     try {
       const [logsRes, statsRes] = await Promise.all([
-        axios.get(`${API}/worklog/all`,   { headers }),
-        axios.get(`${API}/worklog/stats`, { headers }),
+        axios.get(`${API_URL}/worklog/all`,   { headers }),
+        axios.get(`${API_URL}/worklog/stats`, { headers }),
       ]);
       setLogs(logsRes.data);
       setStats(statsRes.data);
@@ -81,9 +82,9 @@ export default function WorkLogs() {
     setSubmitting(true);
     try {
       if (editLog) {
-        await axios.put(`${API}/worklog/update/${editLog.id}`, form, { headers });
+        await axios.put(`${API_URL}/worklog/update/${editLog.id}`, form, { headers });
       } else {
-        await axios.post(`${API}/worklog/add`, form, { headers });
+        await axios.post(`${API_URL}/worklog/add`, form, { headers });
       }
       
       await fetchAll();
@@ -98,7 +99,7 @@ export default function WorkLogs() {
   const handleDelete = async (id) => {
     setDeleting(id);
     try {
-      await axios.delete(`${API}/worklog/delete/${id}`, { headers });
+      await axios.delete(`${API_URL}/worklog/delete/${id}`, { headers });
       fetchAll();
     } catch (e) {
       alert(e.response?.data?.message || "Delete failed");

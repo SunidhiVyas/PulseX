@@ -10,6 +10,7 @@ import AIWidget from "../../components/AIWidget";
 import EmployeeAvatarCard from "../../components/EmployeeAvatarCard";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
+import API_URL from "../../config/api";
 
 const container = {
   hidden: { opacity: 0 },
@@ -46,10 +47,10 @@ export default function EmployeeDashboard() {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
-      const statsRes = await axios.get("http://localhost:5000/api/dashboard/stats", {
+      const statsRes = await axios.get(`${API_URL}/dashboard/stats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const logsRes = await axios.get("http://localhost:5000/api/worklog/all", {
+      const logsRes = await axios.get(`${API_URL}/worklog/all`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setStats(statsRes.data);

@@ -23,6 +23,7 @@ const item = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 },
 };
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Login() {
   const navigate = useNavigate();
@@ -38,7 +39,10 @@ export default function Login() {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+      const response = await axios.post(`${API_URL}/auth/login`, {
+      email,
+      password,
+    });
       console.log("LOGIN RESPONSE:", response.data);
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");

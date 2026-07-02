@@ -6,8 +6,9 @@ import Navbar from "../../components/Navbar";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
 import { FiUser, FiMail, FiBriefcase, FiEdit2, FiSave, FiX, FiLock, FiCalendar } from "react-icons/fi";
+import API_URL from "../../config/api";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 const inputCls =
   "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-500 outline-none focus:border-cyan-500/50 transition-all";
@@ -30,8 +31,8 @@ export default function Profile() {
   const fetchAll = async () => {
     try {
       const [profRes, statRes] = await Promise.all([
-        axios.get(`${API}/user/profile`,    { headers }),
-        axios.get(`${API}/dashboard/stats`, { headers }),
+        axios.get(`${API_URL}/user/profile`,    { headers }),
+        axios.get(`${API_URL}/dashboard/stats`, { headers }),
       ]);
       setProfile(profRes.data);
       setForm({ name: profRes.data.name, department: profRes.data.department || "", password: "" });
@@ -62,7 +63,7 @@ export default function Profile() {
       const formData = new FormData();
       formData.append("photo", file);
 
-      const res = await axios.post(`${API}/user/upload-photo`, formData, {
+      const res = await axios.post(`${API_URL}/user/upload-photo`, formData, {
         headers: {
           ...headers,
           "Content-Type": "multipart/form-data",
@@ -98,7 +99,7 @@ export default function Profile() {
         return;
       }
 
-      await axios.put(`${API}/user/profile`, payload, { headers });
+      await axios.put(`${API_URL}/user/profile`, payload, { headers });
       setSaveMsg("✅ Profile updated successfully!");
       setEditing(false);
       setForm((f) => ({ ...f, password: "" }));

@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+
 const getProfile = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
@@ -63,7 +64,7 @@ const uploadPhoto = async (req, res) => {
       return res.status(400).json({ message: "No photo uploaded" });
     }
 
-    const image = `http://localhost:5000/uploads/${req.file.filename}`;
+    const image = `${API_URL}/uploads/${req.file.filename}`;
 
     const user = await prisma.user.update({
       where: { id: req.user.id },

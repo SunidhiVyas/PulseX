@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
+import API_URL from "../../config/api";
 
 const suggestions = [
   "📊 Analyze my attendance",
@@ -58,7 +59,7 @@ export default function AIChat() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5000/api/ai/chat",
+        `${API_URL}/ai/chat`,
         { message: msg },
         { headers: { Authorization: `Bearer ${token}` } }
       );

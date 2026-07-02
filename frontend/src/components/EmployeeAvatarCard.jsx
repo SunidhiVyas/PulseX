@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import API_URL from "../config/api";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 export default function EmployeeAvatarCard() {
   const [user, setUser] = useState({
@@ -25,7 +26,7 @@ export default function EmployeeAvatarCard() {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
-      const res = await axios.get(`${API}/user/profile`, {
+      const res = await axios.get(`${API_URL}/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser({

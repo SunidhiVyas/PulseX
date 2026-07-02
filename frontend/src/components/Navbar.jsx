@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FiBell } from "react-icons/fi";
 import axios from "axios";
+import API_URL from "../config/api";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
@@ -10,7 +11,7 @@ export default function Navbar() {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-        const res = await axios.get("http://localhost:5000/api/user/profile", {
+        const res = await axios.get(`${API_URL}/user/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(res.data);

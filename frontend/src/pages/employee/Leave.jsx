@@ -5,12 +5,13 @@ import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
+import API_URL from "../../config/api";
 import {
   FiPlus, FiX, FiCalendar, FiClock,
   FiCheckCircle, FiXCircle, FiTrash2,
 } from "react-icons/fi";
 
-const API = "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 const leaveTypeColor = (t) =>
   t === "CASUAL" ? "text-cyan-400 bg-cyan-500/10 border-cyan-500/25"
@@ -58,14 +59,14 @@ export default function Leave() {
 
   const fetchLeaves = async () => {
     try {
-      const res = await axios.get(`${API}/leave/all`, { headers });
+      const res = await axios.get(`${API_URL}/leave/all`, { headers });
       setLeaves(res.data);
     } catch (e) { console.log(e); }
   };
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get(`${API}/leave/stats`, { headers });
+      const res = await axios.get(`${API_URL}/leave/stats`, { headers });
       setStats(res.data);
     } catch (e) { console.log(e); }
   };
@@ -80,7 +81,7 @@ export default function Leave() {
     }
     setSubmitting(true);
     try {
-      await axios.post(`${API}/leave/apply`, form, { headers });
+      await axios.post(`${API_URL}/leave/apply`, form, { headers });
       setShowModal(false);
       setForm({ type: "CASUAL", fromDate: "", toDate: "", reason: "" });
       fetchLeaves();
@@ -94,7 +95,7 @@ export default function Leave() {
   const handleCancel = async (id) => {
     setCancelling(id);
     try {
-      await axios.delete(`${API}/leave/cancel/${id}`, { headers });
+      await axios.delete(`${API_URL}/leave/cancel/${id}`, { headers });
       fetchLeaves();
       fetchStats();
     } catch (e) {
