@@ -7,6 +7,7 @@ import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
 import { FiPlus, FiX, FiEdit3, FiTrash2, FiClock, FiCheck } from "react-icons/fi";
 import API_URL from "../../config/api";
+import toast from "react-hot-toast";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -102,7 +103,7 @@ export default function WorkLogs() {
       await axios.delete(`${API_URL}/worklog/delete/${id}`, { headers });
       fetchAll();
     } catch (e) {
-      alert(e.response?.data?.message || "Delete failed");
+      toast.error(e.response?.data?.message || "Delete failed");
     }
     setDeleting(null);
   };

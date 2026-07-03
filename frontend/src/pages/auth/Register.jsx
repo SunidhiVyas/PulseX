@@ -6,6 +6,7 @@ import axios from "axios";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
 import API_URL from "../../config/api";
+import toast from "react-hot-toast";
 
 const container = {
   hidden: { opacity: 0 },
@@ -24,7 +25,7 @@ export default function Register() {
 
   const handleRegister = async () => {
     if (!name || !email || !password) {
-      alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
     try {
@@ -32,10 +33,10 @@ export default function Register() {
         name, email, password, role: "EMPLOYEE",
       });
       console.log("REGISTER RESPONSE:", response.data);
-      alert("Registration successful! You can now log in.");
+      toast.success("Registration successful! You can now log in.");
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Registration failed.");
+      toast.error(error.response?.data?.message || "Registration failed.");
     }
   };
 

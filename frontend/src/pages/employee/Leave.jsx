@@ -6,6 +6,7 @@ import Navbar from "../../components/Navbar";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
 import API_URL from "../../config/api";
+import toast from "react-hot-toast";
 import {
   FiPlus, FiX, FiCalendar, FiClock,
   FiCheckCircle, FiXCircle, FiTrash2,
@@ -99,7 +100,7 @@ export default function Leave() {
       fetchLeaves();
       fetchStats();
     } catch (e) {
-      alert(e.response?.data?.message || "Cancel failed");
+      toast.error(e.response?.data?.message || "Cancel failed");
     }
     setCancelling(null);
   };

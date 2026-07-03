@@ -6,6 +6,7 @@ import axios from "axios";
 import BackgroundEffects from "../../components/BackgroundEffects";
 import FloatingParticles from "../../components/FloatingParticles";
 import AnimatedIllustration from "../../components/AnimatedIllustration";
+import toast from "react-hot-toast";
 
 const features = [
   { icon: "⏰", title: "Attendance", desc: "Smart check-in & check-out", color: "text-cyan-400", border: "hover:border-cyan-500/30" },
@@ -35,7 +36,7 @@ export default function Login() {
     console.log("PASSWORD:", password);
     e.preventDefault();
     if (!email || !password) {
-      alert("Please enter both email and password.");
+      toast.error("Please enter both email and password.");
       return;
     }
     try {
@@ -51,7 +52,7 @@ export default function Login() {
   console.log(error.response);
   console.log(error.message);
 
-  alert("Login failed");
+  toast.error(error.response?.data?.message || "Login failed");
 }
   };
 

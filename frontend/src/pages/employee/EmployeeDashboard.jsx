@@ -38,8 +38,13 @@ export default function EmployeeDashboard() {
     leavesCount: 0,
     tasksCompleted: 0,
     hoursLogged: 0,
+    productivityScore: 0,
+    attendanceScore: 0,
+    streak: 0,
   });
   const [workLogs, setWorkLogs] = useState([]);
+
+  
 
   useEffect(() => { fetchDashboardData(); }, []);
 
@@ -130,7 +135,7 @@ export default function EmployeeDashboard() {
                 transition={{ delay: 0.6, type: "spring" }}
               >
                 <span className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400 px-5 py-2 rounded-xl border border-cyan-500/20 font-semibold text-sm">
-                  Productivity Score: 92%
+                  Productivity Score: {stats.productivityScore}%
                 </span>
                 <motion.span
                   className="text-2xl"
@@ -272,10 +277,25 @@ export default function EmployeeDashboard() {
                   </div>
                   <div className="grid grid-cols-3 gap-4 mb-7">
                     {[
-                      { label: "Top Project", value: "PulseX", icon: "🏆", color: "text-yellow-400" },
-                      { label: "Streak",      value: "5 days", icon: "🔥", color: "text-orange-400" },
-                      { label: "AI Score",    value: "A+",     icon: "🤖", color: "text-cyan-400"   },
-                    ].map((h, i) => (
+                      {
+                        label: "Tasks Done",
+                        value: stats.tasksCompleted,
+                        icon: "✅",
+                        color: "text-cyan-400",
+                     },
+                     {
+                        label: "Attendance",
+                        value: `${stats.attendanceCount} Days`,
+                        icon: "📅",
+                        color: "text-pink-400",
+                      },
+                      {
+                        label: "Hours",
+                        value: `${stats.hoursLogged}h`,
+                        icon: "⏱️",
+                        color: "text-purple-400",
+                      },
+                      ].map((h, i) => (
                       <motion.div
                         key={i}
                         whileHover={{ scale: 1.05, y: -3 }}
@@ -289,10 +309,22 @@ export default function EmployeeDashboard() {
                   </div>
                   <div className="space-y-4">
                     {[
-                      { label: "Task Completion", pct: 85, color: "bg-cyan-400"   },
-                      { label: "Attendance Rate",  pct: 95, color: "bg-pink-400"   },
-                      { label: "Log Consistency",  pct: 72, color: "bg-purple-400" },
-                    ].map((bar, i) => (
+  {
+    label: "Productivity",
+    pct: stats.productivityScore,
+    color: "bg-cyan-400",
+  },
+  {
+    label: "Attendance",
+    pct: stats.attendanceScore,
+    color: "bg-pink-400",
+  },
+  {
+    label: "Work Hours",
+    pct: Math.min(Math.round((stats.hoursLogged / 40) * 100), 100),
+    color: "bg-purple-400",
+  },
+                     ].map((bar, i) => (
                       <div key={i}>
                         <div className="flex justify-between text-xs mb-2">
                           <span className="text-gray-400 font-medium">{bar.label}</span>
