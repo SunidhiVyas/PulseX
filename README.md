@@ -7,6 +7,11 @@ PulseX is a full-stack AI-powered Workforce Management System that simplifies em
 The application provides a modern dashboard for employees while enabling secure authentication and efficient workforce management using React, Node.js, Express, PostgreSQL, Prisma ORM, and Google Gemini AI.
 
 ---
+## 🌐 Live Demo
+
+🚀 **Live Application:** https://pulse-x-beta.vercel.app/
+
+---
 
 # ✨ Features
 
